@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <math.h>  // For sqrt() and pow()
+
+// Function to calculate the Lorentz factor gamma
+double lorentzFactor(double v, double c) {
+    return 1.0 / sqrt(1.0 - (v * v) / (c * c));
+}
+
+// Function to apply Lorentz transformation
+void lorentzTransform(double x, double y, double z, double t, double v, double c) {
+    // Calculate the Lorentz factor
+    double gamma = lorentzFactor(v, c);
+
+    // Apply Lorentz transformation equations
+    double x_prime = gamma * (x - v * t);
+    double y_prime = y;  // No change for y and z
+    double z_prime = z;
+    double t_prime = gamma * (t - (v * x) / (c * c));
+
+    // Output the results
+    printf("Lorentz Transformation Results:\n");
+    printf("x' = %.2f\n", x_prime);
+    printf("y' = %.2f\n", y_prime);
+    printf("z' = %.2f\n", z_prime);
+    printf("t' = %.2f\n", t_prime);
+}
+
+int main() {
+    double x, y, z, t, v, c;
+
+    // Speed of light in m/s
+    c = 299792458.0;  // Speed of light in meters per second
+
+    // Get user inputs
+    printf("Enter the spatial coordinates (x, y, z) and time (t) in seconds:\n");
+    printf("x: ");
+    scanf("%lf", &x);
+    printf("y: ");
+    scanf("%lf", &y);
+    printf("z: ");
+    scanf("%lf", &z);
+    printf("t: ");
+    scanf("%lf", &t);
+
+    printf("Enter the relative velocity (v) in m/s (must be less than speed of light): ");
+    scanf("%lf", &v);
+
+    // Check if the velocity is less than the speed of light
+    if (v >= c) {
+        printf("Error: Velocity must be less than the speed of light.\n");
+        return 1;
+    }
+
+    // Apply Lorentz transformation
+    lorentzTransform(x, y, z, t, v, c);
+
+    return 0;
+}
